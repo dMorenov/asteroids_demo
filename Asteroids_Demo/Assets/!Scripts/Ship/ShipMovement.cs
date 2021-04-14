@@ -1,9 +1,10 @@
+using Map;
 using System;
 using UnityEngine;
 
 namespace Ship
 {
-    public class ShipMovement : MonoBehaviour
+    public class ShipMovement : MonoBehaviour, IEdgeTeleportable
     {
         private const string Horizontal = "Horizontal";
         private const string Vertical = "Vertical";
@@ -14,6 +15,16 @@ namespace Ship
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float maxSpeed;
         [SerializeField] private float acceleration;
+
+
+        public Vector2 GetPosition() => transform.position;
+
+
+        private void Start()
+        {
+            // TODO: register/unregister on spawner/death
+            EdgeTeleportManager.Instance.Register(this);
+        }
 
         private void Update()
         {
@@ -26,6 +37,16 @@ namespace Ship
 
             if (rb.velocity.magnitude < maxSpeed)
                 rb.AddForce(transform.up * acceleration * forwardForce);
+        }
+
+        public void TeleportHorizontalyTo(float x)
+        {
+            transform.position = new Vector2(x, transform.position.y);
+        }
+
+        public void TeleportVerticalyTo(float y)
+        {
+            transform.position = new Vector2(transform.position.x, y);
         }
     }
 }
