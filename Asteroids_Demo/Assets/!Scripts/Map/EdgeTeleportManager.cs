@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using Units;
 
 namespace Map
 {
@@ -8,17 +9,18 @@ namespace Map
     {
         [SerializeField] private MapBounds mapBounds;
 
-        private HashSet<IEdgeTeleportable> _teleportables = new HashSet<IEdgeTeleportable>();
+        private HashSet<Unit> _units = new HashSet<Unit>();
 
-        private void Start()
+        private new void Awake()
         {
+            base.Awake();
             // TODO: check mapbounds null
-            _teleportables.Clear();
+            //_units.Clear();
         }
 
         private void Update()
         {
-            foreach(var unit in _teleportables)
+            foreach(var unit in _units)
             {
                 var pos = unit.GetPosition();
 
@@ -30,14 +32,14 @@ namespace Map
             }
         }
 
-        public void Register(IEdgeTeleportable teleportable)
+        public void Register(Unit teleportable)
         {
-            _teleportables.Add(teleportable);
+            _units.Add(teleportable);
         }
 
-        public void Unregister(IEdgeTeleportable teleportable)
+        public void Unregister(Unit teleportable)
         {
-            _teleportables.Remove(teleportable);
+            _units.Remove(teleportable);
         }
     }
 }
