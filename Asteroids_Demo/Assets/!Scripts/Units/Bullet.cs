@@ -8,6 +8,7 @@ namespace Units
         private float _speed;
         private float _lifeTime;
 
+
         public void Setup(ShipWeaponSettings settings)
         {
             _speed = settings.BulletSpeed;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90dee44ec45f4754d8a00cb735736154, type: 3}
   m_Name: ShipWeapon_Default
   m_EditorClassIdentifier: 
-  attackDelay: 1
-  bulletSpeed: 3000
-  lifeTime: 2
+  attackDelay: 0.3
+  bulletSpeed: 28
+  lifeTime: 0.4
   Bullet: {fileID: 9107736287345668091, guid: 327fd6129a068894091c1f347be10551, type: 3}

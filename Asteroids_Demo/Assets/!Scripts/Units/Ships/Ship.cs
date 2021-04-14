@@ -37,6 +37,5 @@ namespace Units.Ships
         {
             shipWeapon.Fire();
         }
-
     }
 }

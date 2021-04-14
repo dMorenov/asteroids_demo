@@ -4,8 +4,13 @@ namespace Map
 {
     public class Bounds
     {
+        public float HorizontalSize => _horizontalSize;
+        public float VerticalSize => _verticalSize;
+        public Vector2 Origin => _origin;
+
         private float _horizontalSize;
         private float _verticalSize;
+        private Vector2 _origin;
 
         private float _minX;
         private float _minY;
@@ -16,6 +21,7 @@ namespace Map
         {
             _horizontalSize = horizontalSize;
             _verticalSize = verticalSize;
+            _origin = origin;
 
             _minX = origin.x - _horizontalSize - displacement;
             _minY = origin.y - _verticalSize - displacement;

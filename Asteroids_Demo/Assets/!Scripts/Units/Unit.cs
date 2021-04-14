@@ -26,6 +26,5 @@ namespace Units
         {
             transform.position = new Vector2(transform.position.x, y);
         }
-
     }
 }
