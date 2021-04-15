@@ -11,7 +11,6 @@ namespace Units.Ships
 
         [SerializeField] private ShipWeaponSettings weaponSettings;
 
-
         public float RotationSpeed { get => rotationSpeed; }
         public float MaxVelocity { get => maxVelocity; }
         public float Acceleration { get => acceleration; }

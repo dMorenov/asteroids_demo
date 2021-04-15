@@ -5,12 +5,12 @@ namespace Units
 {
     public abstract class Unit : MonoBehaviour
     {
-        public void OnEnable()
+        public virtual void OnEnable()
         {
             EdgeTeleportManager.Instance.Register(this);
         }
 
-        public void OnDisable()
+        public virtual void OnDisable()
         {
             EdgeTeleportManager.Instance.Unregister(this);
         }

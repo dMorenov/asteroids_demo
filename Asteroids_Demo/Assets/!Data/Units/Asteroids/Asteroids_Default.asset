@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f13f8aa6fd064d549ab4a918ce487316, type: 3}
+  m_Name: Asteroids_Default
+  m_EditorClassIdentifier: 
+  AsteroidPrefab: {fileID: 3208222559318212258, guid: 56501fd1379b8014d9307fc60c0aa6e9, type: 3}
+  minSpeed: 3
+  maxSpeed: 11
+  numberOfChilds: 2
+  smallAsteroids:
+  - {fileID: 21300000, guid: 9afeba92963fa154386567d796be3187, type: 3}
+  - {fileID: 21300000, guid: eec617fdf750d054d91d298bcbed6888, type: 3}
+  mediumAsteroids:
+  - {fileID: 21300000, guid: 7ac4664ec599211429dd8a465358d32b, type: 3}
+  - {fileID: 21300000, guid: 0188f6593dd42664b98eb925e343917b, type: 3}
+  bigAsteroids:
+  - {fileID: 21300000, guid: 05984a8c9dacdc84da45dfbabef6972c, type: 3}
+  - {fileID: 21300000, guid: c2c9cb78d45d15440a17b8a7007574ec, type: 3}
+  - {fileID: 21300000, guid: cda04bcef55bcb3429c112df86ba193d, type: 3}
+  - {fileID: 21300000, guid: b68116225d659d54880a90d1d0cb77e0, type: 3}

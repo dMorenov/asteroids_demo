@@ -24,6 +24,7 @@ namespace Utils
                 var obj = new GameObject();
                 obj.hideFlags = HideFlags.DontSave;
                 _instance = obj.AddComponent<T>();
+                obj.name = typeof(T).Name;
                 return _instance;
             }
         }

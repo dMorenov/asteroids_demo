@@ -6,18 +6,18 @@ using Map;
 public class GameManager : MonoBehaviour
 {
     public MapBounds MapBounds;
-    public Asteroid AsteroidPrefab;
+    public MapSettings MapSettings;
 
-    public float spawnDelay = 3f;
     public bool isPlaying = false;
 
     private float _spawnCounter = 0f;
+    private float _secondsCounter;
 
     private UnitSpawner spawner;
 
     private IEnumerator Start()
     {
-        spawner = new UnitSpawner(MapBounds, AsteroidPrefab);
+        spawner = new UnitSpawner(MapBounds, MapSettings.AsteroidsConfig);
 
         yield return new WaitForSeconds(1.5f);
         isPlaying = true;
@@ -27,11 +27,9 @@ public class GameManager : MonoBehaviour
     {
         if (!isPlaying) return;
 
-        if (spawnDelay > 1f)
-            spawnDelay -= 0.01f * Time.deltaTime;
-
         _spawnCounter -= Time.deltaTime;
-
+        _secondsCounter += Time.deltaTime;
+            
         if (_spawnCounter <= 0f)
         {
             Spawn();
@@ -41,8 +39,8 @@ public class GameManager : MonoBehaviour
 
     private void Spawn()
     {
-        _spawnCounter = spawnDelay;
+        _spawnCounter = MapSettings.GetSpawnDelay(_secondsCounter);
 
-        spawner.Spawn();
+        spawner.RandomSpawn();
     }
 }
