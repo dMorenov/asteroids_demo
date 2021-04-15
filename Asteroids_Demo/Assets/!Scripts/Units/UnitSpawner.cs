@@ -1,42 +1,44 @@
 using UnityEngine;
 using Map;
 using Random = UnityEngine.Random;
+using Utils;
 
 namespace Units
 {
-    public class UnitSpawner : MonoBehaviour
+    public class UnitSpawner
     {
-        public MapBounds MapBounds;
-        public Asteroid AsteroidPrefab;
+        private MapBounds _mapBounds;
+        private Asteroid _asteroidPrefab;
 
-        private float spawnOffset = 0.15f;
+        private float spawnOffset = 0f;//0.15f;
 
-        private void Update()
+        public UnitSpawner(MapBounds mapBounds, Asteroid prefab)
         {
-            if (Input.GetKeyDown(KeyCode.F1)) Spawn();
+            _mapBounds = mapBounds;
+            _asteroidPrefab = prefab;
         }
 
         public void Spawn()
         {
             // choose a random position around the bounds and get the closest point to spawn
-            var randX = Random.Range(MapBounds.Bounds.BottomLeft.x, MapBounds.Bounds.BottomRight.x);
-            var randY = Random.Range(MapBounds.Bounds.BottomLeft.y, MapBounds.Bounds.TopLeft.y);
+            var randX = Random.Range(_mapBounds.Bounds.BottomLeft.x, _mapBounds.Bounds.BottomRight.x);
+            var randY = Random.Range(_mapBounds.Bounds.BottomLeft.y, _mapBounds.Bounds.TopLeft.y);
 
-            var x = randX - MapBounds.Bounds.Origin.x <= 0 ? MapBounds.Bounds.BottomLeft.x - spawnOffset : MapBounds.Bounds.BottomRight.x + spawnOffset;
-            var y = randY - MapBounds.Bounds.Origin.y <= 0 ? MapBounds.Bounds.BottomLeft.y - spawnOffset : MapBounds.Bounds.TopLeft.y + spawnOffset;
+            var x = randX - _mapBounds.Bounds.Origin.x <= 0 ? _mapBounds.Bounds.BottomLeft.x - spawnOffset : _mapBounds.Bounds.BottomRight.x + spawnOffset;
+            var y = randY - _mapBounds.Bounds.Origin.y <= 0 ? _mapBounds.Bounds.BottomLeft.y - spawnOffset : _mapBounds.Bounds.TopLeft.y + spawnOffset;
 
             var spawnPosition = Mathf.Abs(randX) - Mathf.Abs(randY) < 0 ? new Vector2(x, randY) : new Vector2(randX, y);
 
-            //choose a random direction through the map
-            var randomPoint = new Vector2(
-                Random.Range(MapBounds.Bounds.BottomLeft.x, MapBounds.Bounds.BottomRight.x), 
-                Random.Range(MapBounds.Bounds.BottomLeft.y, MapBounds.Bounds.TopLeft.y));
-
-            var direction = (randomPoint - spawnPosition).normalized;
-
             // instantiate and setup
-            var asteroid = Instantiate(AsteroidPrefab, spawnPosition, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
-            asteroid.Setup(Random.Range(3f, 10f));
+            var rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+            var speed = Random.Range(3f, 10f);
+            var asteroid = ObjectPool.Instance.GetItem(_asteroidPrefab, spawnPosition, rotation); //GameObject.Instantiate(_asteroidPrefab, spawnPosition, rotation);
+            asteroid.Setup(speed, OnAsteroidDeath);
+        }
+
+        private void OnAsteroidDeath(Asteroid asteroid)
+        {
+            ObjectPool.Instance.Recycle(asteroid.gameObject);
         }
     }
 }

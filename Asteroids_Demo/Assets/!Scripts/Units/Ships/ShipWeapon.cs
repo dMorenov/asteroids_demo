@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 
 namespace Units.Ships
 {
@@ -9,7 +10,6 @@ namespace Units.Ships
 
         private float _attackCounter = 0f;
         private bool _isOnCooldown = false;
-
 
         public ShipWeapon(ShipWeaponSettings settings, Transform spawnTransform)
         {
@@ -35,8 +35,13 @@ namespace Units.Ships
             _attackCounter = weaponSettings.AttackDelay;
             _isOnCooldown = true;
 
-            var instance = GameObject.Instantiate(weaponSettings.Bullet, _spawnTransform.position, _spawnTransform.rotation) as Bullet;
-            instance.Setup(weaponSettings);
+            var instance = ObjectPool.Instance.GetItem(weaponSettings.Bullet, _spawnTransform.position, _spawnTransform.rotation); // GameObject.Instantiate(weaponSettings.Bullet, _spawnTransform.position, _spawnTransform.rotation) as Bullet;
+            instance.Setup(weaponSettings, OnBulletDeath);
+        }
+
+        private void OnBulletDeath(Bullet bullet)
+        {
+            ObjectPool.Instance.Recycle(bullet.gameObject);
         }
     }
 }

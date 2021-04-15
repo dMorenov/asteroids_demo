@@ -7,6 +7,8 @@ namespace Map
         [SerializeField] private Camera cam;
         [SerializeField] private float boundsDisplacement;
 
+        public bool ShowGizmos = false;
+
         public Bounds Bounds { get { return _bounds; } }
 
         private Bounds _bounds;
@@ -21,7 +23,7 @@ namespace Map
 
         private void OnDrawGizmos()
         {
-            if (!UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) return;
+            if (!ShowGizmos || !UnityEditor.EditorApplication.isPlaying) return;
 
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(_bounds.BottomLeft, _bounds.BottomRight);
