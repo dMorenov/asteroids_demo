@@ -8,7 +8,7 @@ namespace Units.Asteroids
     {
         public Asteroid AsteroidPrefab;
 
-        public int NumberOfChilds { get => numberOfChilds; }
+        public int NumberOfChilds => numberOfChilds; 
 
         [SerializeField] private float minSpeed;
         [SerializeField] private float maxSpeed;

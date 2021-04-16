@@ -8,16 +8,18 @@ namespace Units.Ships
         private const string Horizontal = "Horizontal";
         private const string Vertical = "Vertical";
 
-        public float Rotation { get; private set; }
+        public float Rotation => rotation;
+        public float ForwardForce => forwardForce;
 
-        public float ForwardForce { get; private set; }
+        [SerializeField] private float rotation;
+        [SerializeField] private float forwardForce;
 
         private Action _onFireCallback;
 
         public void GetInput()
         {
-            Rotation = Input.GetAxis(Horizontal);
-            ForwardForce = Mathf.Clamp(Input.GetAxis(Vertical), 0f, 1f);
+            rotation = Input.GetAxis(Horizontal);
+            forwardForce = Mathf.Clamp(Input.GetAxis(Vertical), 0f, 1f);
 
             if (Input.GetKey(KeyCode.Space))
                 _onFireCallback?.Invoke();
@@ -26,6 +28,12 @@ namespace Units.Ships
         public void SetFireCallback(Action fireCallback)
         {
             _onFireCallback = fireCallback;
+        }
+
+        public void Reset()
+        {
+            rotation = 0f;
+            forwardForce = 0f;
         }
     }
 }

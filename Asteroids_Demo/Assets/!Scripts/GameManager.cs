@@ -2,11 +2,13 @@ using System.Collections;
 using UnityEngine;
 using Units;
 using Map;
+using Units.Ships;
 
 public class GameManager : MonoBehaviour
 {
     public MapBounds MapBounds;
     public MapSettings MapSettings;
+    public Ship ship;
 
     public bool isPlaying = false;
 

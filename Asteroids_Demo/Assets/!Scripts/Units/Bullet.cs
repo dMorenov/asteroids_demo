@@ -1,6 +1,7 @@
 using System;
 using Units.Ships;
 using UnityEngine;
+using Utils;
 
 namespace Units
 {
@@ -9,13 +10,10 @@ namespace Units
         private float _speed;
         private float _lifeTime;
 
-        private Action<Bullet> _onDeathCallback;
-
-        public void Setup(ShipWeaponSettings settings, Action<Bullet> onDeathCallback)
+        public void Setup(ShipWeaponSettings settings)
         {
             _speed = settings.BulletSpeed;
             _lifeTime = settings.LifeTime;
-            _onDeathCallback = onDeathCallback;
             gameObject.SetActive(true);
         }
 
@@ -27,7 +25,7 @@ namespace Units
 
             if (_lifeTime <= 0f)
             {
-                OnDeath();
+                Recycle();
             }
         }
 
@@ -36,14 +34,13 @@ namespace Units
             if (collision.TryGetComponent<IDamageable>(out var damageable))
             {
                 damageable.TakeDamage();
-                OnDeath();
+                Recycle();
             }
         }
 
-        private void OnDeath()
+        public void Recycle()
         {
-            _onDeathCallback?.Invoke(this);
-            _onDeathCallback = null;
+            ObjectPool.Instance.Recycle(this.gameObject);
         }
     }
 }

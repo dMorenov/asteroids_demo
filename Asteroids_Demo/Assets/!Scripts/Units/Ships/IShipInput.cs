@@ -9,5 +9,7 @@ namespace Units.Ships
         public void SetFireCallback(Action fireCallback);
         public float Rotation { get; }
         public float ForwardForce { get; }
+
+        public void Reset();
     }
 }

@@ -15,7 +15,7 @@ namespace Utils
 
                 if (!poolItem.activeInHierarchy && poolItem.TryGetComponent<T>(out var type))
                 {
-                    //poolItem.SetActive(true);
+                    poolItem.SetActive(true);
                     poolItem.transform.SetPositionAndRotation(position, rotation);
                     return poolItem.GetComponent<T>();
                 }

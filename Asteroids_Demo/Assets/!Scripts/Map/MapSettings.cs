@@ -7,6 +7,7 @@ namespace Map
     public class MapSettings : ScriptableObject
     {
         [Header("Difficulty Settings")]
+        [SerializeField] private int playerLives;
         [SerializeField] private float maxSpawnDelay;
         [SerializeField] private float minSpawnDelay;
         [SerializeField] private float timeUntilMaxDifficulty; // Time in seconds
@@ -15,11 +16,18 @@ namespace Map
         [Header("Asteroids")]
         [SerializeField] private AsteroidsConfiguration asteroidsConfig;
 
-        public float MaxSpawnDelay { get => maxSpawnDelay; }
-        public float MinSpawnDelay { get => minSpawnDelay; }
-        public float TimeUntilMaxDifficulty { get => timeUntilMaxDifficulty; }
+        [Header("Other Settings")]
+        [SerializeField] private float roundStartCountdownSeconds;
 
-        public AsteroidsConfiguration AsteroidsConfig { get => asteroidsConfig; }
+
+
+        public int PlayerLives => playerLives;
+        public float MaxSpawnDelay => maxSpawnDelay;
+        public float MinSpawnDelay => minSpawnDelay; 
+        public float TimeUntilMaxDifficulty => timeUntilMaxDifficulty;
+        public float RoundStartCountdownSeconds => roundStartCountdownSeconds;
+
+        public AsteroidsConfiguration AsteroidsConfig => asteroidsConfig;
 
 
     public float GetSpawnDelay(float currentTime)

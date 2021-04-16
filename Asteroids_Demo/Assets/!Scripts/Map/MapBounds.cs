@@ -7,9 +7,9 @@ namespace Map
         [SerializeField] private Camera cam;
         [SerializeField] private float boundsDisplacement;
 
+        public Bounds Bounds => _bounds;
         public bool ShowGizmos = false;
 
-        public Bounds Bounds { get { return _bounds; } }
 
         private Bounds _bounds;
 

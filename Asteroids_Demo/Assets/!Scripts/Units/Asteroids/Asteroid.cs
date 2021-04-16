@@ -18,8 +18,6 @@ namespace Units.Asteroids
 
         private Action<Asteroid> _onDeathCallback;
 
-        public bool hascallback;
-
         public void Setup(SizeType size, float speed, Sprite sprite, Action<Asteroid> onDeathCallback )
         {
             _size = size;
@@ -28,7 +26,6 @@ namespace Units.Asteroids
             spriteRenderer.sprite = _sprite;
             _onDeathCallback = onDeathCallback;
             SetColliderSettings();
-            gameObject.SetActive(true);
         }
 
         private void SetColliderSettings()
@@ -52,7 +49,6 @@ namespace Units.Asteroids
 
         public void Update()
         {
-            hascallback = _onDeathCallback != null;
             transform.position += transform.up * _speed * Time.deltaTime;
         }
 

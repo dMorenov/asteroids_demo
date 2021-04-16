@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
@@ -10,6 +11,8 @@ namespace Units.Ships
 
         private float _attackCounter = 0f;
         private bool _isOnCooldown = false;
+
+        private List<Bullet> _instantiatedBullets = new List<Bullet>();
 
         public ShipWeapon(ShipWeaponSettings settings, Transform spawnTransform)
         {
@@ -36,12 +39,17 @@ namespace Units.Ships
             _isOnCooldown = true;
 
             var instance = ObjectPool.Instance.GetItem(weaponSettings.Bullet, _spawnTransform.position, _spawnTransform.rotation); // GameObject.Instantiate(weaponSettings.Bullet, _spawnTransform.position, _spawnTransform.rotation) as Bullet;
-            instance.Setup(weaponSettings, OnBulletDeath);
+            instance.Setup(weaponSettings);
+
+            _instantiatedBullets.Add(instance);
         }
 
-        private void OnBulletDeath(Bullet bullet)
+        public void RecycleAllBullets()
         {
-            ObjectPool.Instance.Recycle(bullet.gameObject);
+            foreach (var bullet in _instantiatedBullets)
+                bullet.Recycle();
+
+            _instantiatedBullets.Clear();
         }
     }
 }

@@ -1,9 +1,14 @@
+using System;
 using UnityEngine;
 
 namespace Units.Ships
 {
     public class Ship : Unit, IDamageable
     {
+        private const string Enemy = "Enemy";
+
+        public bool ControlEnabled = true;
+
         [SerializeField] private ShipSettings shipSettings;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Transform bulletSpawnTransform;
@@ -11,6 +16,8 @@ namespace Units.Ships
         private IShipInput shipInput;
         private ShipMotor shipMotor;
         private ShipWeapon shipWeapon;
+
+        private Action<Ship> _onDeathCallback;
 
         private void Awake()
         {
@@ -21,8 +28,15 @@ namespace Units.Ships
             shipWeapon = new ShipWeapon(shipSettings.WeaponSettings, bulletSpawnTransform);
         }
 
+        public void Setup(Action<Ship> onDeathCallback)
+        {
+            _onDeathCallback = onDeathCallback;
+        }
+
         private void Update()
         {
+            if (!ControlEnabled) return;
+
             shipInput.GetInput();
             shipMotor.Tick();
             shipWeapon.Tick();
@@ -30,6 +44,8 @@ namespace Units.Ships
 
         private void FixedUpdate()
         {
+            if (!ControlEnabled) return;
+
             shipMotor.TickPhysics();
         }
 
@@ -40,11 +56,22 @@ namespace Units.Ships
 
         public void TakeDamage()
         {
+            _onDeathCallback?.Invoke(this);
+        }
+
+        public override void OnDisable()
+        {
+            base.OnDisable();
+            _onDeathCallback = null;
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            shipInput.Reset();
+            shipWeapon.RecycleAllBullets();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag == "Enemy")
+            if (collision.tag == Enemy)
             {
                 TakeDamage();
             }

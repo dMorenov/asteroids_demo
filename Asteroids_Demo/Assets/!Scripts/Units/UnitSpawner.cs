@@ -1,8 +1,9 @@
 using UnityEngine;
+using System.Collections.Generic;
 using Map;
-using Random = UnityEngine.Random;
 using Utils;
 using Units.Asteroids;
+using Random = UnityEngine.Random;
 
 namespace Units
 {
@@ -12,7 +13,9 @@ namespace Units
         private Asteroid _asteroidPrefab;
         private AsteroidsConfiguration _asteroidsConfig;
 
-        private float spawnOffset = 0f;//0.15f;
+        private float spawnOffset = 0f;
+
+        private List<Unit> _instantiatedUnits = new List<Unit>();
 
         public UnitSpawner(MapBounds mapBounds, AsteroidsConfiguration config)
         {
@@ -39,6 +42,8 @@ namespace Units
             var sprite = _asteroidsConfig.GetSpriteBySize(size);
             var asteroid = ObjectPool.Instance.GetItem(_asteroidPrefab, spawnPosition, rotation); 
             asteroid.Setup(size, speed, sprite, OnAsteroidDeath);
+
+            _instantiatedUnits.Add(asteroid);
         }
 
         public void ChildSpawn(Asteroid asteroid)
@@ -58,7 +63,16 @@ namespace Units
                 sprite = _asteroidsConfig.GetSpriteBySize(newSize);
                 var newAsteroid = ObjectPool.Instance.GetItem(_asteroidPrefab, asteroid.transform.position, rotation);
                 newAsteroid.Setup(newSize, speed, sprite, OnAsteroidDeath);
+                _instantiatedUnits.Add(newAsteroid);
             }
+        }
+
+        public void RemoveAllUnits()
+        {
+            foreach (var unit in _instantiatedUnits)
+                ObjectPool.Instance.Recycle(unit.gameObject);
+
+            _instantiatedUnits.Clear();
         }
 
         private void OnAsteroidDeath(Asteroid asteroid)
@@ -66,6 +80,7 @@ namespace Units
             if (asteroid.Size == Asteroid.SizeType.Small)
             {
                 ObjectPool.Instance.Recycle(asteroid.gameObject);
+                _instantiatedUnits.Remove(asteroid);
                 return;
             }
 
