@@ -6,12 +6,13 @@ using Units.Ships;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using Services;
+using Utils;
 
 namespace GameCore
 {
     public class GameManager : StateMachine
     {
-        private const string MenuScene = "MainMenu";
         public MapBounds MapBounds => mapBounds;
         public MapSettings MapSettings => mapSettings;
         public GameData GameData => _gameData;
@@ -24,9 +25,11 @@ namespace GameCore
         [SerializeField] private UiGameOver uiGameOver;
 
         private GameData _gameData;
+        private DataStorageService _dataStorage;
 
         private void Start()
         {
+            _dataStorage = new DataStorageService(new PlayerPrefsStorage());
             var _typeToState = new Dictionary<Type, State>()
             {
                 {typeof(StartRound), new StartRound(this) },
@@ -44,7 +47,9 @@ namespace GameCore
             MapBounds.ResetOrigin();
             Spawner = new UnitSpawner(MapBounds, MapSettings.AsteroidsConfig);
             _gameData = new GameData(MapSettings);
+            _gameData.HiScore = _dataStorage.GetInt(ConstStrings.HiScore);
             uiPlayerStats.SetScore(_gameData.PlayerScore);
+            uiPlayerStats.SetHiScore(_gameData.HiScore);
             SetLives(_gameData.PlayerLives);
 
             SetState(typeof(StartRound));
@@ -71,6 +76,7 @@ namespace GameCore
             if (_gameData.PlayerScore > _gameData.HiScore)
             {
                 _gameData.HiScore = _gameData.PlayerScore;
+                _dataStorage.SetInt(ConstStrings.HiScore, _gameData.HiScore);
                 uiPlayerStats.SetHiScore(_gameData.HiScore);
             }
         }
@@ -85,7 +91,7 @@ namespace GameCore
         #region UiGameOver
         public void ExitToMenu()
         {
-            SceneManager.LoadSceneAsync(MenuScene, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(ConstStrings.MenuScene, LoadSceneMode.Single);
         }
 
         public void ShowEndScreen()

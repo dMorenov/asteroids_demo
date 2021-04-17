@@ -1,11 +1,11 @@
+using Services;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 public class UiMenuController : MonoBehaviour
 {
-    private const string GameScene = "GameScene";
-
     [SerializeField] TextMeshProUGUI hiScoreText;
     [SerializeField] GameObject mainPanel;
     [SerializeField] GameObject background;
@@ -13,15 +13,16 @@ public class UiMenuController : MonoBehaviour
 
     private void Awake()
     {
-        //todo
-        //hiscoreText = load data
+        var storage = new DataStorageService(new PlayerPrefsStorage());
+        var hiScore = storage.GetInt(ConstStrings.HiScore);
 
+        hiScoreText.SetText(hiScore.ToString());
     }
 
 
     public void StartGame()
     {
-        SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(ConstStrings.GameScene, LoadSceneMode.Single);
     }
 
     public void ExitGame()
