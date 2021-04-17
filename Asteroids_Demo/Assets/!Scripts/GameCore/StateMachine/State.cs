@@ -14,10 +14,5 @@ namespace GameCore
         {
             yield break;
         }
-
-        public virtual IEnumerator Pause()
-        {
-            yield break;
-        }
     }
 }

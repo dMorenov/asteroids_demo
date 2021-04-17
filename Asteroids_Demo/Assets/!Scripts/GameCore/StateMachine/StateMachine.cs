@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GameCore
@@ -5,10 +7,16 @@ namespace GameCore
     public abstract class StateMachine : MonoBehaviour
     {
         protected State State;
+        private Dictionary<Type, State> _typeToState;
 
-        public void SetState(State newState)
+        protected void InitializeStateMachine(Dictionary<Type, State> states)
         {
-            State = newState;
+            _typeToState = states;
+        }
+
+        public void SetState(Type newState)
+        {
+            State = _typeToState[newState];
             StartCoroutine(State.Start());
         }
     }

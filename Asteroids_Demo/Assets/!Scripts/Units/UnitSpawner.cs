@@ -14,8 +14,10 @@ namespace Units
         private AsteroidsConfiguration _asteroidsConfig;
 
         private float spawnOffset = 0f;
-
         private List<Unit> _instantiatedUnits = new List<Unit>();
+
+        public delegate void AsteroidKilled(Asteroid asteroid);
+        public event AsteroidKilled OnAsteroidKilled;
 
         public UnitSpawner(MapBounds mapBounds, AsteroidsConfiguration config)
         {
@@ -77,6 +79,7 @@ namespace Units
 
         private void OnAsteroidDeath(Asteroid asteroid)
         {
+            OnAsteroidKilled?.Invoke(asteroid);
             if (asteroid.Size == Asteroid.SizeType.Small)
             {
                 ObjectPool.Instance.Recycle(asteroid.gameObject);

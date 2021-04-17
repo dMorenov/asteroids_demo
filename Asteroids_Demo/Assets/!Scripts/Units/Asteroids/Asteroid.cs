@@ -44,8 +44,6 @@ namespace Units.Asteroids
 
         public void TakeDamage()
         {
-            Messenger<int>.Broadcast(Messages.AsteroidKilled, (int)_size);
-
             _onDeathCallback?.Invoke(this);
         }
 

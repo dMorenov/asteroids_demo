@@ -11,7 +11,7 @@ namespace GameCore
 
         public override IEnumerator Start()
         {
-            Debug.Log("GAME OVER!");
+            GameManager.ShowEndScreen();
             yield break;
         }
     }

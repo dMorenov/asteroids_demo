@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using Units.Asteroids;
 using Units.Ships;
 using UnityEngine;
 using Utils;
@@ -16,16 +16,12 @@ namespace GameCore
 
         public MainLoop(GameManager gameManager) : base(gameManager)
         {
-            Messenger<int>.AddListener(Messages.AsteroidKilled, OnAsteroidKilled);
-        }
-
-        ~MainLoop()
-        {
-            Messenger<int>.RemoveListener(Messages.AsteroidKilled, OnAsteroidKilled);
         }
 
         public override IEnumerator Start()
         {
+            GameManager.Spawner.OnAsteroidKilled += OnAsteroidKilled;
+
             GameManager.PlayerShip.Setup(OnShipDead);
             _spawnCounter = GameManager.GameData.spawnCounter;
             _secondsCounter = GameManager.GameData.secondsElapsed;
@@ -46,7 +42,6 @@ namespace GameCore
             if (_spawnCounter <= 0f)
             {
                 Spawn();
-                return;
             }
         }
 
@@ -56,28 +51,19 @@ namespace GameCore
 
             GameManager.Spawner.RandomSpawn();
         }
-        private void OnAsteroidKilled(int size)
+        private void OnAsteroidKilled(Asteroid asteroid)
         {
-            var score = GameManager.MapSettings.AsteroidsConfig.GetScoreBySizeInt(size);
-            GameManager.GameData.PlayerScore += score;
-
-            Messenger<int>.Broadcast(Messages.SetScore, GameManager.GameData.PlayerScore);
-
-            if (GameManager.GameData.PlayerScore > GameManager.GameData.HiScore)
-                Messenger<int>.Broadcast(Messages.SetHiScore, GameManager.GameData.PlayerScore);
+            var score = GameManager.MapSettings.AsteroidsConfig.GetScoreBySizeInt((int)asteroid.Size);
+            GameManager.AddScore(score);
         }
 
         private void OnShipDead(Ship ship)
         {
             _playerIsAlive = false;
-            GameManager.GameData.PlayerLives--;
-
-            GameManager.GameData.spawnCounter = _spawnCounter;
-            GameManager.GameData.secondsElapsed = _secondsCounter;
+            GameManager.RemoveLife();
+            GameManager.SaveGameTimers(_secondsCounter, _spawnCounter);
 
             ObjectPool.Instance.Recycle(GameManager.PlayerShip.gameObject);
-            Messenger.Broadcast(Messages.RemoveLife);
-
 
             GameManager.RunCoroutine(DelayedTransition());
         }
@@ -89,9 +75,9 @@ namespace GameCore
             GameManager.Spawner.RemoveAllUnits();
 
             if (GameManager.GameData.PlayerLives > 0)
-                GameManager.SetState(new StartRound(GameManager));
+                GameManager.SetState(typeof(StartRound));
             else
-                GameManager.SetState(new GameOver(GameManager));
+                GameManager.SetState(typeof(GameOver));
         }
     }
 }

@@ -12,16 +12,16 @@ namespace GameCore
 
         public override IEnumerator Start()
         {
+            yield return new WaitForSeconds(0.1f);
+
             GameManager.PlayerShip = ObjectPool.Instance.GetItem(GameManager.PlayerShip, Vector3.zero, Quaternion.identity);
             GameManager.PlayerShip.ControlEnabled = false;
-
-            Messenger<int>.Broadcast(Messages.SetLives, GameManager.GameData.PlayerLives);
 
             yield return new WaitForSeconds(GameManager.GameData.roundStartCountdown);
 
             GameManager.PlayerShip.ControlEnabled = true;
 
-            GameManager.SetState(new MainLoop(GameManager));
+            GameManager.SetState(typeof(MainLoop));
         }
     }
 }
