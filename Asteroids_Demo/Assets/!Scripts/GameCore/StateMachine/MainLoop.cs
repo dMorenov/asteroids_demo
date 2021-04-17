@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Units.Ships;
 using UnityEngine;
@@ -15,6 +16,12 @@ namespace GameCore
 
         public MainLoop(GameManager gameManager) : base(gameManager)
         {
+            Messenger<int>.AddListener(Messages.AsteroidKilled, OnAsteroidKilled);
+        }
+
+        ~MainLoop()
+        {
+            Messenger<int>.RemoveListener(Messages.AsteroidKilled, OnAsteroidKilled);
         }
 
         public override IEnumerator Start()
@@ -24,7 +31,7 @@ namespace GameCore
             _secondsCounter = GameManager.GameData.secondsElapsed;
             _playerIsAlive = true;
 
-            while(_playerIsAlive)
+            while (_playerIsAlive)
             {
                 Tick();
                 yield return 0;
@@ -49,6 +56,16 @@ namespace GameCore
 
             GameManager.Spawner.RandomSpawn();
         }
+        private void OnAsteroidKilled(int size)
+        {
+            var score = GameManager.MapSettings.AsteroidsConfig.GetScoreBySizeInt(size);
+            GameManager.GameData.PlayerScore += score;
+
+            Messenger<int>.Broadcast(Messages.SetScore, GameManager.GameData.PlayerScore);
+
+            if (GameManager.GameData.PlayerScore > GameManager.GameData.HiScore)
+                Messenger<int>.Broadcast(Messages.SetHiScore, GameManager.GameData.PlayerScore);
+        }
 
         private void OnShipDead(Ship ship)
         {
@@ -59,6 +76,8 @@ namespace GameCore
             GameManager.GameData.secondsElapsed = _secondsCounter;
 
             ObjectPool.Instance.Recycle(GameManager.PlayerShip.gameObject);
+            Messenger.Broadcast(Messages.RemoveLife);
+
 
             GameManager.RunCoroutine(DelayedTransition());
         }

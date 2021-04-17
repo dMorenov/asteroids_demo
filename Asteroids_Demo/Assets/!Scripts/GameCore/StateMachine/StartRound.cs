@@ -15,6 +15,8 @@ namespace GameCore
             GameManager.PlayerShip = ObjectPool.Instance.GetItem(GameManager.PlayerShip, Vector3.zero, Quaternion.identity);
             GameManager.PlayerShip.ControlEnabled = false;
 
+            Messenger<int>.Broadcast(Messages.SetLives, GameManager.GameData.PlayerLives);
+
             yield return new WaitForSeconds(GameManager.GameData.roundStartCountdown);
 
             GameManager.PlayerShip.ControlEnabled = true;

@@ -8,6 +8,7 @@ namespace Units.Ships
         private const string Enemy = "Enemy";
 
         public bool ControlEnabled = true;
+        public bool GodModeEnabled = false;
 
         [SerializeField] private ShipSettings shipSettings;
         [SerializeField] private Rigidbody2D rb;
@@ -56,6 +57,8 @@ namespace Units.Ships
 
         public void TakeDamage()
         {
+            if (GodModeEnabled) return;
+
             _onDeathCallback?.Invoke(this);
         }
 

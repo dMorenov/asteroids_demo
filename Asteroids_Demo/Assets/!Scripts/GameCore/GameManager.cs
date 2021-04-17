@@ -17,6 +17,7 @@ namespace GameCore
 
         private void Start()
         {
+            MapBounds.ResetOrigin();
             Spawner = new UnitSpawner(MapBounds, MapSettings.AsteroidsConfig);
             GameData = new GameData(MapSettings);
 

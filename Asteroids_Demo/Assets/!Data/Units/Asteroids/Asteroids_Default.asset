@@ -16,6 +16,9 @@ MonoBehaviour:
   minSpeed: 3
   maxSpeed: 11
   numberOfChilds: 2
+  smallScoreValue: 100
+  mediumScoreValue: 50
+  bigScoreValue: 20
   smallAsteroids:
   - {fileID: 21300000, guid: 9afeba92963fa154386567d796be3187, type: 3}
   - {fileID: 21300000, guid: eec617fdf750d054d91d298bcbed6888, type: 3}

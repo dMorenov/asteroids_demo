@@ -7,6 +7,11 @@ namespace Utils
     {
         private List<GameObject> _itemsPool = new List<GameObject>();
 
+        public void OnEnable()
+        {
+            DontDestroyOnLoad(this);
+        }
+
         public T GetItem<T>(T obj, Vector3 position, Quaternion rotation) where T : MonoBehaviour
         {
             for (int i = 0; i < _itemsPool.Count; i++)
@@ -27,6 +32,7 @@ namespace Utils
             return instance;
         }
 
+    
         public void Recycle(GameObject obj)
         {
             obj.SetActive(false);

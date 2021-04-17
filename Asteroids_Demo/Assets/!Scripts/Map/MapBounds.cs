@@ -21,6 +21,11 @@ namespace Map
             _bounds = new Bounds(verticalSize, horizontalSize, cam.transform.position, boundsDisplacement);
         }
 
+        public void ResetOrigin()
+        {
+            transform.position = Vector3.zero;
+        }
+
         private void OnDrawGizmos()
         {
             if (!ShowGizmos || !UnityEditor.EditorApplication.isPlaying) return;
