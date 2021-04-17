@@ -1,3 +1,4 @@
+using Audio;
 using System;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ namespace Units.Ships
         private ShipMotor shipMotor;
         private ShipWeapon shipWeapon;
 
-        private Action<Ship> _onDeathCallback;
+        public delegate void ShipKilled(Ship ship);
+        public event ShipKilled OnShipKilled;
 
         private void Awake()
         {
@@ -29,9 +31,9 @@ namespace Units.Ships
             shipWeapon = new ShipWeapon(shipSettings.WeaponSettings, bulletSpawnTransform);
         }
 
-        public void Setup(Action<Ship> onDeathCallback)
+        public void Respawn()
         {
-            _onDeathCallback = onDeathCallback;
+            AudioManager.Instance.PlayClip(shipSettings.RespawnSound); 
         }
 
         private void Update()
@@ -59,13 +61,15 @@ namespace Units.Ships
         {
             if (GodModeEnabled) return;
 
-            _onDeathCallback?.Invoke(this);
+            AudioManager.Instance.PlayClip(shipSettings.ExplosionSound);
+            shipMotor.StopMotor();
+
+            OnShipKilled?.Invoke(this);
         }
 
         public override void OnDisable()
         {
             base.OnDisable();
-            _onDeathCallback = null;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0f;
             shipInput.Reset();

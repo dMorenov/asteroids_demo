@@ -1,3 +1,4 @@
+using Audio;
 using Services;
 using TMPro;
 using UnityEngine;
@@ -13,6 +14,8 @@ public class UiMenuController : MonoBehaviour
 
     private void Awake()
     {
+        AudioManager.Instance.SetMenuBackground();
+
         var storage = new DataStorageService(new PlayerPrefsStorage());
         var hiScore = storage.GetInt(ConstStrings.HiScore);
 

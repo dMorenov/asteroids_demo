@@ -8,6 +8,7 @@ using System;
 using UnityEngine.SceneManagement;
 using Services;
 using Utils;
+using Audio;
 
 namespace GameCore
 {
@@ -37,6 +38,8 @@ namespace GameCore
                 {typeof(GameOver), new GameOver(this) },
             };
             InitializeStateMachine(_typeToState);
+
+            AudioManager.Instance.SetIngameBackground();
 
             RestartGame();
         }

@@ -14,7 +14,7 @@ namespace Map
         [SerializeField] private AnimationCurve spawnRateCurve;
 
         [Header("Asteroids")]
-        [SerializeField] private AsteroidsConfiguration asteroidsConfig;
+        [SerializeField] private AsteroidsSettings asteroidsConfig;
 
         [Header("Other Settings")]
         [SerializeField] private float roundStartCountdownSeconds;
@@ -27,7 +27,7 @@ namespace Map
         public float TimeUntilMaxDifficulty => timeUntilMaxDifficulty;
         public float RoundStartCountdownSeconds => roundStartCountdownSeconds;
 
-        public AsteroidsConfiguration AsteroidsConfig => asteroidsConfig;
+        public AsteroidsSettings AsteroidsConfig => asteroidsConfig;
 
 
     public float GetSpawnDelay(float currentTime)

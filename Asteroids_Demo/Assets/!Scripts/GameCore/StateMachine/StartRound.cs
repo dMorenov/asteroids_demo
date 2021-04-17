@@ -12,12 +12,11 @@ namespace GameCore
 
         public override IEnumerator Start()
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(GameManager.GameData.roundStartCountdown);
 
             GameManager.PlayerShip = ObjectPool.Instance.GetItem(GameManager.PlayerShip, Vector3.zero, Quaternion.identity);
             GameManager.PlayerShip.ControlEnabled = false;
-
-            yield return new WaitForSeconds(GameManager.GameData.roundStartCountdown);
+            GameManager.PlayerShip.Respawn();
 
             GameManager.PlayerShip.ControlEnabled = true;
 

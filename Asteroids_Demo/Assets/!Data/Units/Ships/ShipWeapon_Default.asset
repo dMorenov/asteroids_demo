@@ -15,4 +15,5 @@ MonoBehaviour:
   attackDelay: 0.1
   bulletSpeed: 35
   lifeTime: 2
+  fireSound: {fileID: 8300000, guid: 2688af233c7fde64c806fa6375d42232, type: 3}
   Bullet: {fileID: 9107736287345668091, guid: 327fd6129a068894091c1f347be10551, type: 3}

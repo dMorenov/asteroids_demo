@@ -8,7 +8,7 @@ namespace GameCore
 {
     public class MainLoop : State
     {
-        private const float TransitionDelay = 1f;
+        private const float TransitionDelay = 0.5f;
 
         private float _spawnCounter;
         private float _secondsCounter;
@@ -21,8 +21,8 @@ namespace GameCore
         public override IEnumerator Start()
         {
             GameManager.Spawner.OnAsteroidKilled += OnAsteroidKilled;
+            GameManager.PlayerShip.OnShipKilled += OnShipKilled;
 
-            GameManager.PlayerShip.Setup(OnShipDead);
             _spawnCounter = GameManager.GameData.spawnCounter;
             _secondsCounter = GameManager.GameData.secondsElapsed;
             _playerIsAlive = true;
@@ -57,7 +57,7 @@ namespace GameCore
             GameManager.AddScore(score);
         }
 
-        private void OnShipDead(Ship ship)
+        private void OnShipKilled(Ship ship)
         {
             _playerIsAlive = false;
             GameManager.RemoveLife();
@@ -73,6 +73,8 @@ namespace GameCore
             yield return new WaitForSeconds(TransitionDelay);
 
             GameManager.Spawner.RemoveAllUnits();
+
+            yield return new WaitForSeconds(TransitionDelay);
 
             if (GameManager.GameData.PlayerLives > 0)
                 GameManager.SetState(typeof(StartRound));

@@ -8,12 +8,14 @@ namespace Units.Ships
         [SerializeField] private float attackDelay;
         [SerializeField] private float bulletSpeed;
         [SerializeField] private float lifeTime;
+        [SerializeField] private AudioClip fireSound;
 
         public Bullet Bullet;
 
-        public float AttackDelay { get => attackDelay; }
-        public float BulletSpeed { get => bulletSpeed; }
-        public float LifeTime { get => lifeTime; }
+        public float AttackDelay => attackDelay;
+        public float BulletSpeed => bulletSpeed; 
+        public float LifeTime => lifeTime;
+        public AudioClip FireSound => fireSound;
 
     }
 }

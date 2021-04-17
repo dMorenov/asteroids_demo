@@ -16,15 +16,15 @@ namespace Units.Asteroids
         private float _speed;
         private Sprite _sprite;
 
-        private Action<Asteroid> _onDeathCallback;
+        public delegate void AsteroidKilled(Asteroid asteroid);
+        public event AsteroidKilled OnAsteroidKilled;
 
-        public void Setup(SizeType size, float speed, Sprite sprite, Action<Asteroid> onDeathCallback )
+        public void Setup(SizeType size, float speed, Sprite sprite)
         {
             _size = size;
             _speed = speed;
             _sprite = sprite;
             spriteRenderer.sprite = _sprite;
-            _onDeathCallback = onDeathCallback;
             SetColliderSettings();
         }
 
@@ -44,7 +44,7 @@ namespace Units.Asteroids
 
         public void TakeDamage()
         {
-            _onDeathCallback?.Invoke(this);
+            OnAsteroidKilled?.Invoke(this);
         }
 
         public void Update()
@@ -55,7 +55,6 @@ namespace Units.Asteroids
         public override void OnDisable()
         {
             base.OnDisable();
-            _onDeathCallback = null;
         }
     }
 }

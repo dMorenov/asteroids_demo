@@ -4,6 +4,7 @@ using Map;
 using Utils;
 using Units.Asteroids;
 using Random = UnityEngine.Random;
+using Audio;
 
 namespace Units
 {
@@ -11,7 +12,7 @@ namespace Units
     {
         private MapBounds _mapBounds;
         private Asteroid _asteroidPrefab;
-        private AsteroidsConfiguration _asteroidsConfig;
+        private AsteroidsSettings _asteroidsSettings;
 
         private float spawnOffset = 0f;
         private List<Unit> _instantiatedUnits = new List<Unit>();
@@ -19,11 +20,11 @@ namespace Units
         public delegate void AsteroidKilled(Asteroid asteroid);
         public event AsteroidKilled OnAsteroidKilled;
 
-        public UnitSpawner(MapBounds mapBounds, AsteroidsConfiguration config)
+        public UnitSpawner(MapBounds mapBounds, AsteroidsSettings settings)
         {
             _mapBounds = mapBounds;
-            _asteroidsConfig = config;
-            _asteroidPrefab = _asteroidsConfig.AsteroidPrefab;
+            _asteroidsSettings = settings;
+            _asteroidPrefab = _asteroidsSettings.AsteroidPrefab;
         }
 
         public void RandomSpawn()
@@ -40,10 +41,11 @@ namespace Units
             // instantiate and setup
             var size = (Asteroid.SizeType) Random.Range(0, 3);
             var rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-            var speed = _asteroidsConfig.GetRandomSpeed();
-            var sprite = _asteroidsConfig.GetSpriteBySize(size);
+            var speed = _asteroidsSettings.GetRandomSpeed();
+            var sprite = _asteroidsSettings.GetSpriteBySize(size);
             var asteroid = ObjectPool.Instance.GetItem(_asteroidPrefab, spawnPosition, rotation); 
-            asteroid.Setup(size, speed, sprite, OnAsteroidDeath);
+            asteroid.Setup(size, speed, sprite);
+            asteroid.OnAsteroidKilled += OnAsteroidDeath;
 
             _instantiatedUnits.Add(asteroid);
         }
@@ -54,17 +56,20 @@ namespace Units
 
             // Reuse current asteroid
             var rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-            var speed = _asteroidsConfig.GetRandomSpeed();
-            var sprite = _asteroidsConfig.GetSpriteBySize(newSize);
-            asteroid.Setup(newSize, speed, sprite, OnAsteroidDeath);
+            var speed = _asteroidsSettings.GetRandomSpeed();
+            var sprite = _asteroidsSettings.GetSpriteBySize(newSize);
+            asteroid.Setup(newSize, speed, sprite);
+            asteroid.OnAsteroidKilled += OnAsteroidDeath;
 
-            for (var i = 1; i < _asteroidsConfig.NumberOfChilds; i++)
+            for (var i = 1; i < _asteroidsSettings.NumberOfChilds; i++)
             {
                 rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
-                speed = _asteroidsConfig.GetRandomSpeed();
-                sprite = _asteroidsConfig.GetSpriteBySize(newSize);
+                speed = _asteroidsSettings.GetRandomSpeed();
+                sprite = _asteroidsSettings.GetSpriteBySize(newSize);
                 var newAsteroid = ObjectPool.Instance.GetItem(_asteroidPrefab, asteroid.transform.position, rotation);
-                newAsteroid.Setup(newSize, speed, sprite, OnAsteroidDeath);
+                newAsteroid.Setup(newSize, speed, sprite);
+                newAsteroid.OnAsteroidKilled += OnAsteroidDeath;
+
                 _instantiatedUnits.Add(newAsteroid);
             }
         }
@@ -80,6 +85,8 @@ namespace Units
         private void OnAsteroidDeath(Asteroid asteroid)
         {
             OnAsteroidKilled?.Invoke(asteroid);
+            AudioManager.Instance.PlayClip(_asteroidsSettings.ExplosionSound);
+
             if (asteroid.Size == Asteroid.SizeType.Small)
             {
                 ObjectPool.Instance.Recycle(asteroid.gameObject);

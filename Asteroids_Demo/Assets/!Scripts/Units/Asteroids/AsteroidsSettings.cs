@@ -6,11 +6,12 @@ using Random = UnityEngine.Random;
 namespace Units.Asteroids
 {
     [CreateAssetMenu(fileName = "Asteroids_New", menuName = "Configs/Asteroids/AsteroidsConfiguration")]
-    public class AsteroidsConfiguration : ScriptableObject
+    public class AsteroidsSettings : ScriptableObject
     {
         public Asteroid AsteroidPrefab;
 
-        public int NumberOfChilds => numberOfChilds; 
+        public int NumberOfChilds => numberOfChilds;
+        public AudioClip ExplosionSound => explosionSound;
 
         [Header("Behaviour")]
         [SerializeField] private float minSpeed;
@@ -26,6 +27,9 @@ namespace Units.Asteroids
         [SerializeField] private Sprite[] smallAsteroids;
         [SerializeField] private Sprite[] mediumAsteroids;
         [SerializeField] private Sprite[] bigAsteroids;
+
+        [Header("Audio")]
+        [SerializeField] private AudioClip explosionSound;
 
         private Dictionary<Asteroid.SizeType, Sprite[]> _sizeToSprites = new Dictionary<Asteroid.SizeType, Sprite[]>();
         private Dictionary<Asteroid.SizeType, int> _sizeToScore = new Dictionary<Asteroid.SizeType, int>();

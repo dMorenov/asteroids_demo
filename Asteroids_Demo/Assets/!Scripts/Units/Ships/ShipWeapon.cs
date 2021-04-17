@@ -1,3 +1,4 @@
+using Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -42,6 +43,8 @@ namespace Units.Ships
             instance.Setup(weaponSettings);
 
             _instantiatedBullets.Add(instance);
+
+            AudioManager.Instance.PlayClip(weaponSettings.FireSound);
         }
 
         public void RecycleAllBullets()
