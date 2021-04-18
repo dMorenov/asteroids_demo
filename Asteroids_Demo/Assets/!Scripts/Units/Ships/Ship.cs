@@ -6,8 +6,6 @@ namespace Units.Ships
 {
     public class Ship : Unit, IDamageable
     {
-        private const string Enemy = "Enemy";
-
         public bool ControlEnabled = true;
         public bool GodModeEnabled = false;
 
@@ -80,7 +78,7 @@ namespace Units.Ships
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.tag == Enemy)
+            if (collision.tag == ConstStrings.Enemy)
             {
                 TakeDamage();
             }

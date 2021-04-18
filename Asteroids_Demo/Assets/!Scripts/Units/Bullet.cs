@@ -1,4 +1,3 @@
-using System;
 using Units.Ships;
 using UnityEngine;
 using Utils;
@@ -7,8 +6,6 @@ namespace Units
 {
     public class Bullet : Unit
     {
-        private const string Player = "Player";
-
         private float _speed;
         private float _lifeTime;
         private float _maxLifeTime;
@@ -36,7 +33,7 @@ namespace Units
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (_maxLifeTime - _lifeTime < _safeThresholdTime && collision.tag == Player) return;
+            if (_maxLifeTime - _lifeTime < _safeThresholdTime && collision.tag == ConstStrings.Player) return;
 
             if (collision.TryGetComponent<IDamageable>(out var damageable))
             {

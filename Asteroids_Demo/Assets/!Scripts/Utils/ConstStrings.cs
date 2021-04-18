@@ -8,5 +8,7 @@ namespace Utils
 
         // Keys
         public const string HiScore = "HiScore";
+        public const string Enemy = "Enemy";
+        public const string Player = "Player";
     }
 }

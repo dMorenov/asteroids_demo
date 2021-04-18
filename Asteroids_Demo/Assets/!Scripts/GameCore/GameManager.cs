@@ -55,7 +55,7 @@ namespace GameCore
 
             MapBounds.ResetOrigin();
             Spawner = new UnitSpawner(MapBounds, MapSettings.AsteroidsConfig);
-            _gameData = new GameData(MapSettings);
+            _gameData = new GameData(MapSettings.PlayerLives, MapSettings.MaxSpawnDelay, MapSettings.RoundStartCountdownSeconds);
             _gameData.HiScore = _dataStorage.GetInt(ConstStrings.HiScore);
             uiPlayerStats.SetScore(_gameData.PlayerScore);
             uiPlayerStats.SetHiScore(_gameData.HiScore);

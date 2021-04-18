@@ -1,6 +1,4 @@
-﻿using Map;
-
-namespace GameCore
+﻿namespace GameCore
 {
     public class GameData
     {
@@ -14,13 +12,13 @@ namespace GameCore
         public float spawnCounter = 0f;
         public float secondsElapsed;
 
-        public GameData(MapSettings mapSettings)
+        public GameData(int playerLives, float maxSpawnDelay, float roundCountdown)
         {
             PlayerScore = 0;
             HiScore = 0;
-            PlayerLives = mapSettings.PlayerLives;
-            spawnCounter = mapSettings.MaxSpawnDelay;
-            roundStartCountdown = mapSettings.RoundStartCountdownSeconds;
+            PlayerLives = playerLives;
+            spawnCounter = maxSpawnDelay;
+            roundStartCountdown = roundCountdown;
             secondsElapsed = 0f;
         }
     }

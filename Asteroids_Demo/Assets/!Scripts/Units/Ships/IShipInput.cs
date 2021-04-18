@@ -1,5 +1,3 @@
-using System;
-
 namespace Units.Ships
 {
     public interface IShipInput
