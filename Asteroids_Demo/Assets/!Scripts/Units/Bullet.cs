@@ -47,7 +47,8 @@ namespace Units
 
         public void Recycle()
         {
-            ObjectPool.Instance.Recycle(this.gameObject);
+            if (gameObject != null)
+                ObjectPool.Instance.Recycle(this.gameObject);
         }
     }
 }

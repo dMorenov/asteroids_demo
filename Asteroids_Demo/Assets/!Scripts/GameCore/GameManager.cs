@@ -117,6 +117,9 @@ namespace GameCore
 
         public IShipInput GetPlayerInput()
         {
+            if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+                forceMobileInput = true;
+
             mobileInput.gameObject.SetActive(forceMobileInput);
 
             if (forceMobileInput)

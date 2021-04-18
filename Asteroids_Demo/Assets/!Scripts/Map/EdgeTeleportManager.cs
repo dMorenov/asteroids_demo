@@ -14,8 +14,6 @@ namespace Map
         private new void Awake()
         {
             base.Awake();
-            // TODO: check mapbounds null
-            //_units.Clear();
         }
 
         private void Update()

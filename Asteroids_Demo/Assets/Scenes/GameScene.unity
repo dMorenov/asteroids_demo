@@ -236,7 +236,7 @@ MonoBehaviour:
   mapSettings: {fileID: 11400000, guid: e9def22199258ae429816cf2022853ec, type: 2}
   uiPlayerStats: {fileID: 1177918639}
   uiGameOver: {fileID: 869005717}
-  forceMobileInput: 0
+  forceMobileInput: 1
   mobileInput: {fileID: 1690173895}
 --- !u!4 &132210633
 Transform:
@@ -582,7 +582,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -12285,7 +12285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1690173894
 RectTransform:
   m_ObjectHideFlags: 0
