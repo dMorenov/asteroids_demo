@@ -236,7 +236,7 @@ MonoBehaviour:
   mapSettings: {fileID: 11400000, guid: e9def22199258ae429816cf2022853ec, type: 2}
   uiPlayerStats: {fileID: 1177918639}
   uiGameOver: {fileID: 869005717}
-  forceMobileInput: 1
+  forceMobileInput: 0
   mobileInput: {fileID: 1690173895}
 --- !u!4 &132210633
 Transform:
