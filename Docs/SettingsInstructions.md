@@ -8,6 +8,8 @@ They are in the format of ScriptableObjects that all can be duplicated and subst
 - ShipWeaponSettings
 - AsteroidSettings
 
+`IMPORTANT: while game can be launched from the GameScene and be able to play the level, it is advised to always launch from the MainMenu scene.`
+
 ### MapSettings
 `Located in Assets/!Data/Map`
 
