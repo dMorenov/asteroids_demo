@@ -20,10 +20,16 @@ namespace GameCore
         public Ship PlayerShip;
         public UnitSpawner Spawner;
 
+        [Header("Settings")]
         [SerializeField] private MapBounds mapBounds;
         [SerializeField] private MapSettings mapSettings;
         [SerializeField] private UiPlayerStats uiPlayerStats;
+        [Header("UI")]
         [SerializeField] private UiGameOver uiGameOver;
+        [Header("Input")]
+        [SerializeField] private bool forceMobileInput;
+        [SerializeField] private MobileInput mobileInput;
+
 
         private GameData _gameData;
         private DataStorageService _dataStorage;
@@ -99,6 +105,7 @@ namespace GameCore
 
         public void ShowEndScreen()
         {
+            mobileInput.gameObject.SetActive(false);
             uiGameOver.ShowGameOver(_gameData.PlayerScore, _gameData.HiScore);
         }
         #endregion
@@ -106,6 +113,16 @@ namespace GameCore
         public void RunCoroutine(IEnumerator coroutine)
         {
             StartCoroutine(coroutine);
+        }
+
+        public IShipInput GetPlayerInput()
+        {
+            mobileInput.gameObject.SetActive(forceMobileInput);
+
+            if (forceMobileInput)
+                return mobileInput;
+            else
+                return new KeyboardInput();
         }
     }
 }

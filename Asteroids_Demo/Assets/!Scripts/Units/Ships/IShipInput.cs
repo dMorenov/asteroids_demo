@@ -6,7 +6,8 @@ namespace Units.Ships
     {
         public void GetInput();
 
-        public void SetFireCallback(Action fireCallback);
+        public delegate void OnFire();
+        public event OnFire OnFirePressed;
         public float Rotation { get; }
         public float ForwardForce { get; }
 

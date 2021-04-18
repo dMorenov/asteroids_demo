@@ -24,10 +24,10 @@ namespace Units.Ships
         public delegate void ShipKilled(Ship ship);
         public event ShipKilled OnShipKilled;
 
-        private void Awake()
+        public void Setup(IShipInput input)
         {
-            shipInput = new KeyboardInput();
-            shipInput.SetFireCallback(FireBullet);
+            shipInput = input;
+            shipInput.OnFirePressed += FireBullet;
             shipMotor = new ShipMotor(shipInput, shipSettings, rb, transform, thrustParticles);
             shipWeapon = new ShipWeapon(shipSettings.WeaponSettings, bulletSpawnTransform);
         }

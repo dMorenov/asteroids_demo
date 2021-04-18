@@ -14,7 +14,8 @@ namespace GameCore
         {
             yield return new WaitForSeconds(GameManager.GameData.roundStartCountdown);
 
-            GameManager.PlayerShip = ObjectPool.Instance.GetItem(GameManager.PlayerShip, Vector3.zero, Quaternion.identity);
+            var ship = GameManager.PlayerShip = ObjectPool.Instance.GetItem(GameManager.PlayerShip, Vector3.zero, Quaternion.identity);
+            ship.Setup(GameManager.GetPlayerInput());
             GameManager.PlayerShip.ControlEnabled = false;
             GameManager.PlayerShip.Respawn();
 

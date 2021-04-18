@@ -4,12 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
-
 public class UiMenuController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hiScoreText;
-    [SerializeField] GameObject mainPanel;
-    [SerializeField] GameObject background;
+    [SerializeField] AudioClip selectSound;
 
 
     private void Awake()
@@ -25,6 +23,7 @@ public class UiMenuController : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.Instance.PlayClip(selectSound);
         SceneManager.LoadSceneAsync(ConstStrings.GameScene, LoadSceneMode.Single);
     }
 
