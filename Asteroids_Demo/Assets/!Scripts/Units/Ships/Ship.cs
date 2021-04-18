@@ -1,6 +1,6 @@
 using Audio;
-using System;
 using UnityEngine;
+using Utils;
 
 namespace Units.Ships
 {
@@ -14,6 +14,8 @@ namespace Units.Ships
         [SerializeField] private ShipSettings shipSettings;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Transform bulletSpawnTransform;
+        [SerializeField] private ParticleSystem thrustParticles;
+
 
         private IShipInput shipInput;
         private ShipMotor shipMotor;
@@ -26,8 +28,7 @@ namespace Units.Ships
         {
             shipInput = new KeyboardInput();
             shipInput.SetFireCallback(FireBullet);
-
-            shipMotor = new ShipMotor(shipInput, shipSettings, rb, transform);
+            shipMotor = new ShipMotor(shipInput, shipSettings, rb, transform, thrustParticles);
             shipWeapon = new ShipWeapon(shipSettings.WeaponSettings, bulletSpawnTransform);
         }
 
@@ -61,6 +62,7 @@ namespace Units.Ships
         {
             if (GodModeEnabled) return;
 
+            Instantiate(shipSettings.ExplosionParticles, transform.position, Quaternion.identity);
             AudioManager.Instance.PlayClip(shipSettings.ExplosionSound);
             shipMotor.StopMotor();
 

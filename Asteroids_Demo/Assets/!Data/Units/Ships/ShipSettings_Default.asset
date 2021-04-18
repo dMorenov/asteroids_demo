@@ -19,3 +19,5 @@ MonoBehaviour:
   respawnSound: {fileID: 8300000, guid: 0f9575748b8655b418f6244688c64a72, type: 3}
   explosionSound: {fileID: 8300000, guid: 7a8cc768f67c956489201a50cb36145e, type: 3}
   thrustSound: {fileID: 8300000, guid: 2982b71ce5564d94d91e5fa18aa754cc, type: 3}
+  thrustParticles: {fileID: 0}
+  explosionParticles: {fileID: 5741111215208577755, guid: 79917afaa12bd8c44969b85559282090, type: 3}

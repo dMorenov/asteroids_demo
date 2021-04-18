@@ -98,7 +98,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8339789645910227124}
   polygonCollider: {fileID: 6883459821953258414}
-  hascallback: 0
 --- !u!60 &6883459821953258414
 PolygonCollider2D:
   m_ObjectHideFlags: 0

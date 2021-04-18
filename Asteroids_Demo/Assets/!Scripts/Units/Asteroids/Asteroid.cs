@@ -1,3 +1,4 @@
+using Audio;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Units.Asteroids
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private PolygonCollider2D polygonCollider;
 
+        private AsteroidsSettings _settings;
         private SizeType _size;
         private float _speed;
         private Sprite _sprite;
@@ -19,11 +21,12 @@ namespace Units.Asteroids
         public delegate void AsteroidKilled(Asteroid asteroid);
         public event AsteroidKilled OnAsteroidKilled;
 
-        public void Setup(SizeType size, float speed, Sprite sprite)
+        public void Setup(SizeType size, AsteroidsSettings settings)
         {
             _size = size;
-            _speed = speed;
-            _sprite = sprite;
+            _speed = settings.GetRandomSpeed();
+            _sprite = settings.GetSpriteBySize(_size);
+            _settings = settings;
             spriteRenderer.sprite = _sprite;
             SetColliderSettings();
         }
@@ -44,6 +47,9 @@ namespace Units.Asteroids
 
         public void TakeDamage()
         {
+            AudioManager.Instance.PlayClip(_settings.ExplosionSound);
+            Instantiate(_settings.RocksParticles, transform.position, Quaternion.identity);
+
             OnAsteroidKilled?.Invoke(this);
         }
 

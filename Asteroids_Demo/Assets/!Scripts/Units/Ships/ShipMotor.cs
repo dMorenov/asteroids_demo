@@ -9,14 +9,16 @@ namespace Units.Ships
         private Rigidbody2D _rigidbody;
         private Transform _shipTransform;
         private ShipSettings _shipSettings;
+        private ParticleSystem _particles;
         private bool _isThrustingFlag = false;
 
-        public ShipMotor(IShipInput input, ShipSettings settings, Rigidbody2D rigidbody, Transform shipTransform)
+        public ShipMotor(IShipInput input, ShipSettings settings, Rigidbody2D rigidbody, Transform shipTransform, ParticleSystem thrustParticles)
         {
             _shipInput = input;
             _shipSettings = settings;
             _rigidbody = rigidbody;
             _shipTransform = shipTransform;
+            _particles = thrustParticles;
         }
 
         public void Tick()
@@ -25,12 +27,14 @@ namespace Units.Ships
 
             if (_shipInput.ForwardForce > float.Epsilon && !_isThrustingFlag)
             {
-                AudioManager.Instance.PlayClip(_shipSettings.ThrustSound, true);
                 _isThrustingFlag = true;
+                _particles.Play();
+                AudioManager.Instance.PlayClip(_shipSettings.ThrustSound, true);
             }
             else if (_shipInput.ForwardForce <= float.Epsilon && _isThrustingFlag)
             {
                 _isThrustingFlag = false;
+                _particles.Stop();
                 AudioManager.Instance.StopLoop(_shipSettings.ThrustSound);
             }
 
@@ -45,6 +49,7 @@ namespace Units.Ships
         public void StopMotor()
         {
             _isThrustingFlag = false;
+            _particles.Stop();
             AudioManager.Instance.StopLoop(_shipSettings.ThrustSound);
         }
     }

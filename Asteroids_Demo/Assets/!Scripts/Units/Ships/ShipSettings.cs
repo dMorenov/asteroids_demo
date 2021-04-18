@@ -18,6 +18,10 @@ namespace Units.Ships
         [SerializeField] private AudioClip explosionSound;
         [SerializeField] private AudioClip thrustSound;
 
+        [Header("FX")]
+        [SerializeField] private ParticleSystem explosionParticles;
+
+
         public float RotationSpeed => rotationSpeed;
         public float MaxVelocity => maxVelocity;
         public float Acceleration => acceleration;
@@ -25,5 +29,6 @@ namespace Units.Ships
         public AudioClip RespawnSound => respawnSound;
         public AudioClip ExplosionSound => explosionSound;
         public AudioClip ThrustSound => thrustSound;
+        public ParticleSystem ExplosionParticles => explosionParticles;
     }
 }

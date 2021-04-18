@@ -12,6 +12,8 @@ namespace Units.Asteroids
 
         public int NumberOfChilds => numberOfChilds;
         public AudioClip ExplosionSound => explosionSound;
+        public ParticleSystem RocksParticles => rocksParticles;
+
 
         [Header("Behaviour")]
         [SerializeField] private float minSpeed;
@@ -30,6 +32,11 @@ namespace Units.Asteroids
 
         [Header("Audio")]
         [SerializeField] private AudioClip explosionSound;
+
+        [Header("FX")]
+        [SerializeField] private ParticleSystem rocksParticles;
+
+
 
         private Dictionary<Asteroid.SizeType, Sprite[]> _sizeToSprites = new Dictionary<Asteroid.SizeType, Sprite[]>();
         private Dictionary<Asteroid.SizeType, int> _sizeToScore = new Dictionary<Asteroid.SizeType, int>();

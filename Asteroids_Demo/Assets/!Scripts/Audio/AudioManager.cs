@@ -10,17 +10,17 @@ namespace Audio
 
         [SerializeField] private AudioClip menuClip;
         [SerializeField] private AudioClip ingameClip;
+        [SerializeField] private AudioSource backgroundSource;
 
         private List<AudioSource> _audioSources = new List<AudioSource>();
-
-        private AudioSource _backgroundSource;
 
         public override void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
 
-            _backgroundSource = gameObject.AddComponent<AudioSource>();
+            if (backgroundSource == null)
+                backgroundSource = gameObject.AddComponent<AudioSource>();
         }
 
         public void PlayClip(AudioClip clip, bool isLoop = false)
@@ -61,19 +61,15 @@ namespace Audio
 
         public void SetMenuBackground()
         {
-            //_backgroundSource.Stop();
-
-            _backgroundSource.clip = menuClip;
-            _backgroundSource.loop = true;
-            _backgroundSource.Play();
+            backgroundSource.clip = menuClip;
+            backgroundSource.loop = true;
+            backgroundSource.Play();
         }
         public void SetIngameBackground()
         {
-            //_backgroundSource.Stop();
-
-            _backgroundSource.clip = ingameClip;
-            _backgroundSource.loop = true;
-            _backgroundSource.Play();
+            backgroundSource.clip = ingameClip;
+            backgroundSource.loop = true;
+            backgroundSource.Play();
         }
     }
 }

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90dee44ec45f4754d8a00cb735736154, type: 3}
   m_Name: ShipWeapon_Default
   m_EditorClassIdentifier: 
-  attackDelay: 0.1
+  attackDelay: 0.25
   bulletSpeed: 35
-  lifeTime: 2
+  lifeTime: 0.6
   fireSound: {fileID: 8300000, guid: 2688af233c7fde64c806fa6375d42232, type: 3}
   Bullet: {fileID: 9107736287345668091, guid: 327fd6129a068894091c1f347be10551, type: 3}

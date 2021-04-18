@@ -65,6 +65,8 @@ namespace GameCore
 
             ObjectPool.Instance.Recycle(GameManager.PlayerShip.gameObject);
 
+            GameManager.PlayerShip.OnShipKilled -= OnShipKilled;
+
             GameManager.RunCoroutine(DelayedTransition());
         }
 
