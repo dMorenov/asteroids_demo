@@ -41,6 +41,12 @@ namespace Units.Asteroids
         private Dictionary<Asteroid.SizeType, Sprite[]> _sizeToSprites = new Dictionary<Asteroid.SizeType, Sprite[]>();
         private Dictionary<Asteroid.SizeType, int> _sizeToScore = new Dictionary<Asteroid.SizeType, int>();
 
+        private void OnEnable()
+        {
+            if (!Application.isEditor)
+                OnValidate();
+        }
+
         private void OnValidate()
         {
             _sizeToSprites[Asteroid.SizeType.Small] = smallAsteroids;

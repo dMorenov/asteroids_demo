@@ -28,7 +28,9 @@ namespace Map
 
         private void OnDrawGizmos()
         {
+#if UNITY_EDITOR
             if (!ShowGizmos || !UnityEditor.EditorApplication.isPlaying) return;
+#endif
 
             Gizmos.color = Color.blue;
             Gizmos.DrawLine(_bounds.BottomLeft, _bounds.BottomRight);
