@@ -21,6 +21,9 @@ namespace Audio
 
             if (backgroundSource == null)
                 backgroundSource = gameObject.AddComponent<AudioSource>();
+
+            if (!TryGetComponent<AudioListener>(out var listener))
+                gameObject.AddComponent<AudioListener>();
         }
 
         public void PlayClip(AudioClip clip, bool isLoop = false)
